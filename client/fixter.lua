@@ -2,8 +2,8 @@ local QBCore = exports['qb-core']:GetCoreObject()
 local IsRenting = false
 local notifytype = qb  -- qb  or  rtx
 
-RegisterNetEvent('c_Bicycle:client:FixtureMenu')
-AddEventHandler('c_Bicycle:client:FixtureMenu', function()
+RegisterNetEvent('c_Bicycle:client:FixterMenu')
+AddEventHandler('c_Bicycle:client:FixterMenu', function()
     if IsRenting == true then
         exports['qb-menu']:openMenu({
             {
@@ -13,9 +13,9 @@ AddEventHandler('c_Bicycle:client:FixtureMenu', function()
             },
             {
                 id = 2,
-                header = "Pack Fixture",
+                header = "Pack Fixter",
                 params = {
-                    event = "c_Bicycle:client:PackFixture"
+                    event = "c_Bicycle:client:PackFixter"
                 }
             },
             {
@@ -36,9 +36,9 @@ AddEventHandler('c_Bicycle:client:FixtureMenu', function()
             },
             {
                 id = 2,
-                header = "Place Cruiser",
+                header = "Place Fixter",
                 params = {
-                    event = "c_Bicycle:client:Fixture",
+                    event = "c_Bicycle:client:Fixter",
                     args = {
                         vehicle = 'fixture',
 
@@ -56,8 +56,8 @@ AddEventHandler('c_Bicycle:client:FixtureMenu', function()
     end
 end)
 
-RegisterNetEvent('c_Bicycle:client:Fixture')
-AddEventHandler('c_Bicycle:client:Fixture', function(rental)
+RegisterNetEvent('c_Bicycle:client:Fixter')
+AddEventHandler('c_Bicycle:client:Fixter', function(rental)
     local vehicle = rental.vehicle
     local ped = PlayerPedId()
     local pedCoords = GetEntityCoords(ped)
@@ -81,8 +81,8 @@ AddEventHandler('c_Bicycle:client:Fixture', function(rental)
     IsRenting = true
 end)
 
-RegisterNetEvent('c_Bicycle:client:PackFixture')
-AddEventHandler('c_Bicycle:client:PackFixture', function()
+RegisterNetEvent('c_Bicycle:client:PackFixter')
+AddEventHandler('c_Bicycle:client:PackFixter', function()
     if notifytype == rtx then
         TriggerEvent("rtx_notify:Notify", "Bike Stoed", "Bike Packed.", 5000, "success")
     else
