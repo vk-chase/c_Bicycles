@@ -7,7 +7,7 @@ this is set up for a 5 day decay and auto delete with ps-inventory, if you dont 
 of each item, if your inventory doesnt support decay, simply ignore it.
 
 
--- ITEMS.LUA
+-- ITEMS.LUA OLD QB
 
     ['bmx']                            = {['name'] = 'bmx',                              ['label'] = 'BMX',                      ['weight'] = 3500,        ['type'] = 'item',         ['image'] = 'bike.png',                   ['unique'] = true,          ['useable'] = true,      ['shouldClose'] = false,      ['combinable'] = nil, ['decay'] = 5.0, ['delete'] = yes,   ['description'] = 'A deployable bike...'},
     
@@ -23,6 +23,29 @@ of each item, if your inventory doesnt support decay, simply ignore it.
     
     ['tribike3']                            = {['name'] = 'tribike3',                              ['label'] = 'Tri-Cycles Race Bike',                      ['weight'] = 3500,        ['type'] = 'item',         ['image'] = 'bike.png',                   ['unique'] = true,          ['useable'] = true,      ['shouldClose'] = false,      ['combinable'] = nil, ['decay'] = 5.0, ['delete'] = yes,   ['description'] = 'A deployable bike...'},
 
+-- ITEMS.LUA NEW QB
+
+    bmx                            = {name = 'bmx',                              label = 'BMX',                      weight = 3500,        type = 'item',         image = 'bike.png',                   unique = true,          useable = true,      shouldClose = false,      combinable = nil, decay = 5.0, delete = yes,   description = 'A deployable bike...'},
+    
+    cruiser                            = {name = 'cruiser',                              label = 'Cruiser',                      weight = 3500,        type = 'item',         image = 'bike.png',                   unique = true,          useable = true,      shouldClose = false,      combinable = nil, decay = 5.0, delete = yes,   description = 'A deployable bike...'},
+    
+    fixture                            = {name = 'fixture',                              label = 'Fixture',                      weight = 3500,        type = 'item',         image = 'bike.png',                   unique = true,          useable = true,      shouldClose = false,      combinable = nil, decay = 5.0, delete = yes,   description = 'A deployable bike...'},
+    
+    scorcher                            = {name = 'scorcher',                              label = 'Scorcher',                      weight = 3500,        type = 'item',         image = 'bike.png',                   unique = true,          useable = true,      shouldClose = false,      combinable = nil, decay = 5.0, delete = yes,   description = 'A deployable bike...'},
+    
+    tribike                            = {name = 'tribike',                              label = 'Whippet Race Bike',                      weight = 3500,        type = 'item',         image = 'bike.png',                   unique = true,          useable = true,      shouldClose = false,      combinable = nil, decay = 5.0, delete = yes,   description = 'A deployable bike...'},
+    
+    tribike2                            = {name = 'tribike2',                              label = 'Endurex Race Bike',                      weight = 3500,        type = 'item',         image = 'bike.png',                   unique = true,          useable = true,      shouldClose = false,      combinable = nil, decay = 5.0, delete = yes,   description = 'A deployable bike...'},
+    
+    tribike3                            = {name = 'tribike3',                              label = 'Tri-Cycles Race Bike',                      weight = 3500,        type = 'item',         image = 'bike.png',                   unique = true,          useable = true,      shouldClose = false,      combinable = nil, decay = 5.0, delete = yes,   description = 'A deployable bike...'},
+
+
+
+
+
+
+
+    
 
 -- add these items to any shop you want
 -- great "fly in" items for new players!
