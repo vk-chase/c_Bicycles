@@ -13,7 +13,7 @@ of each item, if your inventory doesnt support decay, simply ignore it.
     
     ['cruiser']                            = {['name'] = 'cruiser',                              ['label'] = 'Cruiser',                      ['weight'] = 3500,        ['type'] = 'item',         ['image'] = 'bike.png',                   ['unique'] = true,          ['useable'] = true,      ['shouldClose'] = false,      ['combinable'] = nil, ['decay'] = 5.0, ['delete'] = yes,   ['description'] = 'A deployable bike...'},
     
-    ['fixture']                            = {['name'] = 'fixture',                              ['label'] = 'Fixture',                      ['weight'] = 3500,        ['type'] = 'item',         ['image'] = 'bike.png',                   ['unique'] = true,          ['useable'] = true,      ['shouldClose'] = false,      ['combinable'] = nil, ['decay'] = 5.0, ['delete'] = yes,   ['description'] = 'A deployable bike...'},
+    ['fixter']                            = {['name'] = 'fixter',                              ['label'] = 'Fixter',                      ['weight'] = 3500,        ['type'] = 'item',         ['image'] = 'bike.png',                   ['unique'] = true,          ['useable'] = true,      ['shouldClose'] = false,      ['combinable'] = nil, ['decay'] = 5.0, ['delete'] = yes,   ['description'] = 'A deployable bike...'},
     
     ['scorcher']                            = {['name'] = 'scorcher',                              ['label'] = 'Scorcher',                      ['weight'] = 3500,        ['type'] = 'item',         ['image'] = 'bike.png',                   ['unique'] = true,          ['useable'] = true,      ['shouldClose'] = false,      ['combinable'] = nil, ['decay'] = 5.0, ['delete'] = yes,   ['description'] = 'A deployable bike...'},
     
@@ -29,7 +29,7 @@ of each item, if your inventory doesnt support decay, simply ignore it.
     
     cruiser                            = {name = 'cruiser',                              label = 'Cruiser',                      weight = 3500,        type = 'item',         image = 'bike.png',                   unique = true,          useable = true,      shouldClose = false,      combinable = nil, decay = 5.0, delete = yes,   description = 'A deployable bike...'},
     
-    fixture                            = {name = 'fixture',                              label = 'Fixture',                      weight = 3500,        type = 'item',         image = 'bike.png',                   unique = true,          useable = true,      shouldClose = false,      combinable = nil, decay = 5.0, delete = yes,   description = 'A deployable bike...'},
+    fixter                            = {name = 'fixter',                              label = 'Fixter',                      weight = 3500,        type = 'item',         image = 'bike.png',                   unique = true,          useable = true,      shouldClose = false,      combinable = nil, decay = 5.0, delete = yes,   description = 'A deployable bike...'},
     
     scorcher                            = {name = 'scorcher',                              label = 'Scorcher',                      weight = 3500,        type = 'item',         image = 'bike.png',                   unique = true,          useable = true,      shouldClose = false,      combinable = nil, decay = 5.0, delete = yes,   description = 'A deployable bike...'},
     
