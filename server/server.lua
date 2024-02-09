@@ -12,10 +12,10 @@ QBCore.Functions.CreateUseableItem("cruiser", function(source, item)
         TriggerClientEvent('c_Bicycle:client:CruiserMenu', source)
     end
 end)
-QBCore.Functions.CreateUseableItem("fixture", function(source, item)
+QBCore.Functions.CreateUseableItem("fixter", function(source, item)
     local Player = QBCore.Functions.GetPlayer(source)
     if Player.Functions.GetItemBySlot(item.slot) ~= nil then
-        TriggerClientEvent('c_Bicycle:client:FixtureMenu', source)
+        TriggerClientEvent('c_Bicycle:client:FixterMenu', source)
     end
 end)
 QBCore.Functions.CreateUseableItem("scorcher", function(source, item)
