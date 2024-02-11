@@ -40,7 +40,7 @@ AddEventHandler('c_Bicycle:client:FixterMenu', function()
                 params = {
                     event = "c_Bicycle:client:Fixter",
                     args = {
-                        vehicle = 'fixture',
+                        vehicle = 'fixter',
 
                     }
                 }
