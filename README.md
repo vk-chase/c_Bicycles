@@ -6,26 +6,20 @@ add the provided png to your immage foleder of your inventory. if you want a imm
 
 this is set up for a 5 day decay and auto delete with ps-inventory, if you dont want decay or dont use it feel free to delete the:
 
-['decay'] = 5.0, ['delete'] = yes,
+decay = 5.0, delete = yes,
 
 of each item, if your inventory doesnt support decay, simply ignore it.
 
 
 -- ITEMS.LUA
 
-    ['bmx']                            = {['name'] = 'bmx',                              ['label'] = 'BMX',                      ['weight'] = 3500,        ['type'] = 'item',         ['image'] = 'bike.png',                   ['unique'] = true,          ['useable'] = true,      ['shouldClose'] = false,      ['combinable'] = nil, ['decay'] = 5.0, ['delete'] = yes,   ['description'] = 'A deployable bike...'},
-    
-    ['cruiser']                            = {['name'] = 'cruiser',                              ['label'] = 'Cruiser',                      ['weight'] = 3500,        ['type'] = 'item',         ['image'] = 'bike.png',                   ['unique'] = true,          ['useable'] = true,      ['shouldClose'] = false,      ['combinable'] = nil, ['decay'] = 5.0, ['delete'] = yes,   ['description'] = 'A deployable bike...'},
-    
-    ['fixture']                            = {['name'] = 'fixture',                              ['label'] = 'Fixture',                      ['weight'] = 3500,        ['type'] = 'item',         ['image'] = 'bike.png',                   ['unique'] = true,          ['useable'] = true,      ['shouldClose'] = false,      ['combinable'] = nil, ['decay'] = 5.0, ['delete'] = yes,   ['description'] = 'A deployable bike...'},
-    
-    ['scorcher']                            = {['name'] = 'scorcher',                              ['label'] = 'Scorcher',                      ['weight'] = 3500,        ['type'] = 'item',         ['image'] = 'bike.png',                   ['unique'] = true,          ['useable'] = true,      ['shouldClose'] = false,      ['combinable'] = nil, ['decay'] = 5.0, ['delete'] = yes,   ['description'] = 'A deployable bike...'},
-    
-    ['tribike']                            = {['name'] = 'tribike',                              ['label'] = 'Whippet Race Bike',                      ['weight'] = 3500,        ['type'] = 'item',         ['image'] = 'bike.png',                   ['unique'] = true,          ['useable'] = true,      ['shouldClose'] = false,      ['combinable'] = nil, ['decay'] = 5.0, ['delete'] = yes,   ['description'] = 'A deployable bike...'},
-    
-    ['tribike2']                            = {['name'] = 'tribike2',                              ['label'] = 'Endurex Race Bike',                      ['weight'] = 3500,        ['type'] = 'item',         ['image'] = 'bike.png',                   ['unique'] = true,          ['useable'] = true,      ['shouldClose'] = false,      ['combinable'] = nil, ['decay'] = 5.0, ['delete'] = yes,   ['description'] = 'A deployable bike...'},
-    
-    ['tribike3']                            = {['name'] = 'tribike3',                              ['label'] = 'Tri-Cycles Race Bike',                      ['weight'] = 3500,        ['type'] = 'item',         ['image'] = 'bike.png',                   ['unique'] = true,          ['useable'] = true,      ['shouldClose'] = false,      ['combinable'] = nil, ['decay'] = 5.0, ['delete'] = yes,   ['description'] = 'A deployable bike...'},
+bmx = {name = 'bmx', label = 'BMX', weight = 3500, type = 'item', image = 'bike.png', unique = true, useable = true, shouldClose = false, combinable = nil, decay = 5.0, delete = yes, description = 'A compact, agile bike perfect for tricks and urban riding.'},
+cruiser = {name = 'cruiser', label = 'Cruiser', weight = 3500, type = 'item', image = 'bike.png', unique = true, useable = true, shouldClose = false, combinable = nil, decay = 5.0, delete = yes, description = 'A comfortable, laid-back bike ideal for casual rides and beach cruising.'},
+fixture = {name = 'fixture', label = 'Fixture', weight = 3500, type = 'item', image = 'bike.png', unique = true, useable = true, shouldClose = false, combinable = nil, decay = 5.0, delete = yes, description = 'A sturdy, reliable bike suitable for everyday commuting and errands.'},
+scorcher = {name = 'scorcher', label = 'Scorcher', weight = 3500, type = 'item', image = 'bike.png', unique = true, useable = true, shouldClose = false, combinable = nil, decay = 5.0, delete = yes, description = 'A versatile mountain bike built for off-road adventures and rough terrain.'},
+tribike = {name = 'tribike', label = 'Whippet Race Bike', weight = 3500, type = 'item', image = 'bike.png', unique = true, useable = true, shouldClose = false, combinable = nil, decay = 5.0, delete = yes, description = 'A lightweight, aerodynamic road bike designed for speed and performance.'},
+tribike2 = {name = 'tribike2', label = 'Endurex Race Bike', weight = 3500, type = 'item', image = 'bike.png', unique = true, useable = true, shouldClose = false, combinable = nil, decay = 5.0, delete = yes, description = 'A high-performance road bike built for endurance and long-distance rides.'},
+tribike3 = {name = 'tribike3', label = 'Tri-Cycles Race Bike', weight = 3500, type = 'item', image = 'bike.png', unique = true, useable = true, shouldClose = false, combinable = nil, decay = 5.0, delete = yes, description = 'A specialized triathlon bike optimized for speed and efficiency in multi-sport events.'},
 
 
 -- add these items to any shop you want
@@ -34,10 +28,10 @@ of each item, if your inventory doesnt support decay, simply ignore it.
 ***
 if you for some reason want to use fuel on bicycles, ignore the bottom and go to each client bike lua and uncomment the 
 
---exports['LegacyFuel']:SetFuel(veh, 100.0)
+--exportsLegacyFuel:SetFuel(veh, 100.0)
 
-and set the ['LegacyFuel'] to whatever you use i.e.:
-['LegacyFuel'] or ['cdn-fuel'] or ['ps-fuel'] etc etc
+and set the LegacyFuel to whatever you use i.e.:
+LegacyFuel or cdn-fuel or ps-fuel etc etc
 __ this will have to be done to each clinet lua..
 ***
 
