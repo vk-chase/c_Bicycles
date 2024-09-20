@@ -1,6 +1,12 @@
+fx_version 'cerulean'
+game 'gta5'
 
-fx_version "cerulean"
-game "gta5"
-client_scripts {'client/**.lua'}
-server_script {'server/**.lua'}
+author 'vk-chase'
 
+client_scripts {
+    'client/main.lua'
+}
+
+server_scripts {
+    'server/main.lua'
+}
