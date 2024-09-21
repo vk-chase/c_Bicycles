@@ -1,20 +1,20 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 
 local bicycles = {
-    "bmx",
-    "cruiser",
-    "fixter",
-    "scorcher",
-    "tribike",
-    "tribike2",
-    "tribike3"
+    {name = "BMX", model = "bmx"},
+    {name = "Cruiser", model = "cruiser"},
+    {name = "Fixter", model = "fixter"},
+    {name = "Scorcher", model = "scorcher"},
+    {name = "Whippet Race Bike", model = "tribike"},
+    {name = "Endurex Race Bike", model = "tribike2"},
+    {name = "Tri-Cycles Race Bike", model = "tribike3"}
 }
 
-local function CreateBicycleItem(bicycleName)
-    QBCore.Functions.CreateUseableItem(bicycleName, function(source, item)
+local function CreateBicycleItem(bicycle)
+    QBCore.Functions.CreateUseableItem(bicycle.model, function(source, item)
         local Player = QBCore.Functions.GetPlayer(source)
         if Player.Functions.GetItemBySlot(item.slot) ~= nil then
-            TriggerClientEvent('c_Bicycle:client:' .. bicycleName:gsub("^%l", string.upper) .. 'Menu', source)
+            TriggerClientEvent('c_Bicycle:client:' .. bicycle.name .. 'Menu', source)
         end
     end)
 end
