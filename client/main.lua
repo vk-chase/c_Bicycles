@@ -1,6 +1,9 @@
 local QBCore = exports['qb-core']:GetCoreObject()
+
 local BikeOut = false
 local notifytype = "qb"  -- "qb" or "rtx"
+local currentBike = nil
+local currentBikeModel = nil
 
 local function OpenBicycleMenu(BikeOut, placeEvent, packEvent, vehicleName)
     local menuItems = {
@@ -46,10 +49,29 @@ local function PlaceBicycle(data)
         if notifytype == "rtx" then
             TriggerEvent("rtx_notify:Notify", "Bike Placed", message, 5000, "success")
         else
-            TriggerEvent("QBCore:Notify", message, "success")
+            QBCore.Functions.Notify(message, "success")
         end
         
         SetVehicleEngineOn(veh, true, true)
+        
+        exports['qb-target']:AddTargetEntity(veh, {
+            options = {
+                {
+                    type = "client",
+                    event = "c_Bicycle:client:PickupBike",
+                    icon = "fas fa-bicycle",
+                    label = "Pick up Bike",
+                    canInteract = function(entity)
+                        return GetPlayerServerId(NetworkGetEntityOwner(entity)) == GetPlayerServerId(PlayerId())
+                    end,
+                },
+            },
+            distance = 2.5,
+        })
+
+        currentBike = veh
+        currentBikeModel = vehicle
+        TriggerServerEvent('c_Bicycle:server:RemoveBikeItem', vehicle)
     end, bikeCoords, true) 
 
     Wait(300)
@@ -58,18 +80,30 @@ local function PlaceBicycle(data)
 end
 
 local function PackBicycle()
+    if not currentBike then return end
+
     local message = "Bike Packed!"
     if notifytype == "rtx" then
         TriggerEvent("rtx_notify:Notify", "Bike Stored", message, 5000, "success")
     else
-        TriggerEvent("QBCore:Notify", message, "success")
+        QBCore.Functions.Notify(message, "success")
     end
 
-    local car = GetVehiclePedIsIn(PlayerPedId(), true)
-    DeleteVehicle(car)
-    DeleteEntity(car)
+    if currentBikeModel then
+        TriggerServerEvent('c_Bicycle:server:GiveBikeItem', currentBikeModel)
+    end
+
+    DeleteVehicle(currentBike)
+    currentBike = nil
+    currentBikeModel = nil
     BikeOut = false
 end
+
+RegisterNetEvent('c_Bicycle:client:PickupBike')
+AddEventHandler('c_Bicycle:client:PickupBike', function()
+    PackBicycle()
+end)
+
 
 local bicycles = {
     {name = "BMX", model = "bmx"},
@@ -93,3 +127,8 @@ for _, bike in ipairs(bicycles) do
     RegisterNetEvent('c_Bicycle:client:Pack' .. bike.name)
     AddEventHandler('c_Bicycle:client:Pack' .. bike.name, PackBicycle)
 end
+
+RegisterNetEvent('c_Bicycle:client:PickupBike')
+AddEventHandler('c_Bicycle:client:PickupBike', function()
+    PackBicycle()
+end)
