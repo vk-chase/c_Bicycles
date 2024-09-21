@@ -17,6 +17,10 @@ Bicycles as items for QBCore
 2. If you want a unique image per bike, you'll need to add those separately.
 
 ## Configuration
+you will need : 
+
+qb-target 
+qb-core
 
 ### Items
 
