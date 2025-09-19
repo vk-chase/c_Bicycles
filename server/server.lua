@@ -11,24 +11,16 @@ local bicycles = {
 }
 
 local function CreateBicycleItem(bicycle)
-    QBCore.Functions.CreateUseableItem(bicycle.model, function(source, item)
+    local model = bicycle.model
+    QBCore.Functions.CreateUseableItem(model, function(source, item)
         local Player = QBCore.Functions.GetPlayer(source)
-        if Player then
-            local playerItem = Player.Functions.GetItemBySlot(item.slot)
-            if playerItem and playerItem.name == bicycle.model then
-                if Player.Functions.RemoveItem(bicycle.model, 1) then
-                    print("[Bicycle System] Item Used: " .. bicycle.model .. " by Player ID: " .. source)
-                    TriggerClientEvent('c_Bicycle:client:' .. bicycle.name .. 'Menu', source)
-                else
-                    print("[Bicycle System] Failed to remove item: " .. bicycle.model .. " for Player ID: " .. source)
-                end
-            else
-                print("[Bicycle System] Item not found in inventory slot for Player ID: " .. source)
-            end
+        if Player and Player.Functions.GetItemBySlot(item.slot) then
+            TriggerClientEvent('c_Bicycle:client:' .. model .. 'Menu', source)
         end
     end)
 end
 
+-- Register all bicycle items
 for _, bicycle in ipairs(bicycles) do
     CreateBicycleItem(bicycle)
 end
@@ -36,28 +28,27 @@ end
 RegisterNetEvent('c_Bicycle:server:GiveBikeItem', function(bikeModel)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
-
-    if Player and QBCore.Shared.Items[bikeModel] then
+    if Player then
         Player.Functions.AddItem(bikeModel, 1)
-        TriggerClientEvent('qb-inventory:client:ItemBox', src, QBCore.Shared.Items[bikeModel], 'add')
-        print("[Bicycle System] Given item: " .. bikeModel .. " to Player ID: " .. src)
-    else
-        print("[Bicycle System] Error: Unable to give item " .. tostring(bikeModel) .. " to Player ID: " .. src)
+        local itemData = QBCore.Shared.Items[bikeModel]
+        if itemData then
+            TriggerClientEvent('qb-inventory:client:ItemBox', src, itemData, 'add')
+        else
+            print(('^1[ERROR]^0 Unknown bike item model: %s'):format(bikeModel))
+        end
     end
 end)
 
 RegisterNetEvent('c_Bicycle:server:RemoveBikeItem', function(bikeModel)
     local src = source
     local Player = QBCore.Functions.GetPlayer(src)
-
-    if Player and QBCore.Shared.Items[bikeModel] then
-        if Player.Functions.RemoveItem(bikeModel, 1) then
-            TriggerClientEvent('qb-inventory:client:ItemBox', src, QBCore.Shared.Items[bikeModel], 'remove')
-            print("[Bicycle System] Removed item: " .. bikeModel .. " from Player ID: " .. src)
+    if Player then
+        Player.Functions.RemoveItem(bikeModel, 1)
+        local itemData = QBCore.Shared.Items[bikeModel]
+        if itemData then
+            TriggerClientEvent('qb-inventory:client:ItemBox', src, itemData, 'remove')
         else
-            print("[Bicycle System] Error: Failed to remove item " .. bikeModel .. " from Player ID: " .. src)
+            print(('^1[ERROR]^0 Unknown bike item model: %s'):format(bikeModel))
         end
-    else
-        print("[Bicycle System] Error: Item " .. tostring(bikeModel) .. " not found in Shared Items for Player ID: " .. src)
     end
 end)
