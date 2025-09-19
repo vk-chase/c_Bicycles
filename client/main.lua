@@ -1,64 +1,49 @@
 local QBCore = exports['qb-core']:GetCoreObject()
 
-local BikeOut = false
-local notifytype = "qb"  -- "qb" or "rtx"
-local currentBike = nil
-local currentBikeModel = nil
+local BikeOut, currentBike, currentBikeModel = false, nil, nil
+local notifytype = "qb" -- or "rtx"
 
-local function OpenBicycleMenu(vehicleName)
-    local menuItems = {
-        { id = 1, header = 'Bicycle Menu', isMenuHeader = true },
-        { 
-            id = 2,
-            header = BikeOut and ("Pack " .. vehicleName) or ("Place " .. vehicleName),
-            params = {
-                event = BikeOut and "c_Bicycle:client:PackBike" or "c_Bicycle:client:PlaceBike",
-                args = not BikeOut and { vehicle = string.lower(vehicleName) } or nil
-            }
-        },
-        { id = 3, header = "< Close", params = { event = "qb-menu:closeMenu" } }
-    }
-    exports['qb-menu']:openMenu(menuItems)
-end
-
-local function Notify(message, title, notifyType)
-    if notifyType == "rtx" then
-        TriggerEvent("rtx_notify:Notify", title, message, 5000, "success")
+-- =========================
+-- Helpers
+-- =========================
+local function Notify(title, msg, typ)
+    if notifytype == "rtx" then
+        TriggerEvent("rtx_notify:Notify", title, msg, 5000, typ)
     else
-        QBCore.Functions.Notify(message, "success")
+        QBCore.Functions.Notify(msg, typ)
     end
 end
 
+-- =========================
+-- Bicycle Handling
+-- =========================
 local function PlaceBicycle(data)
-    if BikeOut then return end
-    local vehicle = data.vehicle
+    local model = data.vehicle
     local ped = PlayerPedId()
-    local pedCoords = GetEntityCoords(ped)
-    local bikeCoords = vector3(pedCoords.x + 2, pedCoords.y, pedCoords.z)
+    local coords = GetEntityCoords(ped) + GetEntityForwardVector(ped) * 3.0
+    local heading = GetEntityHeading(ped)
 
-    DoScreenFadeOut(1000)
-    Wait(1500)
+    DoScreenFadeOut(500)
+    Wait(800)
 
-    QBCore.Functions.SpawnVehicle(vehicle, function(veh)
-        if not DoesEntityExist(veh) then return end
-
-        SetVehicleNumberPlateText(veh, "BIKE"..tostring(math.random(1000, 9999)))
+    QBCore.Functions.SpawnVehicle(model, function(veh)
+        SetEntityCoords(veh, coords.x, coords.y, coords.z)
+        SetEntityHeading(veh, heading)
+        SetVehicleOnGroundProperly(veh)
         TaskWarpPedIntoVehicle(ped, veh, -1)
+        SetVehicleNumberPlateText(veh, "BIKE"..math.random(1000, 9999))
         TriggerEvent("vehiclekeys:client:SetOwner", GetVehicleNumberPlateText(veh))
-
-        Notify("Bicycle Placed, Use the bike again to pack it up!", "Bike Placed", notifytype)
-
         SetVehicleEngineOn(veh, true, true)
 
         exports['qb-target']:AddTargetEntity(veh, {
             options = {
                 {
                     type = "client",
-                    event = "c_Bicycle:client:PackBike",
+                    event = "c_Bicycle:client:PickupBike",
                     icon = "fas fa-bicycle",
                     label = "Pick up Bike",
                     canInteract = function(entity)
-                        return GetPlayerServerId(NetworkGetEntityOwner(entity)) == GetPlayerServerId(PlayerId())
+                        return NetworkGetEntityOwner(entity) == PlayerId()
                     end,
                 },
             },
@@ -66,46 +51,78 @@ local function PlaceBicycle(data)
         })
 
         currentBike = veh
-        currentBikeModel = vehicle
-        TriggerServerEvent('c_Bicycle:server:RemoveBikeItem', vehicle)
+        currentBikeModel = model
         BikeOut = true
-    end, bikeCoords, true) 
 
-    Wait(300)
-    DoScreenFadeIn(2500)
+        TriggerServerEvent('c_Bicycle:server:RemoveBikeItem', model)
+        Notify("Bike Placed", "Bicycle placed successfully. Use again to pack it up!", "success")
+    end, coords, true)
+
+    Wait(500)
+    DoScreenFadeIn(1500)
 end
 
 local function PackBicycle()
-    if not currentBike or not DoesEntityExist(currentBike) then return end
-
-    Notify("Bike Packed!", "Bike Stored", notifytype)
+    if not currentBike then return end
 
     if currentBikeModel then
         TriggerServerEvent('c_Bicycle:server:GiveBikeItem', currentBikeModel)
     end
 
     DeleteVehicle(currentBike)
-    currentBike = nil
-    currentBikeModel = nil
-    BikeOut = false
+    currentBike, currentBikeModel, BikeOut = nil, nil, false
+    Notify("Bike Packed", "Your bike has been packed up.", "success")
 end
 
-RegisterNetEvent('c_Bicycle:client:PlaceBike', PlaceBicycle)
-RegisterNetEvent('c_Bicycle:client:PackBike', PackBicycle)
+RegisterNetEvent('c_Bicycle:client:PickupBike', PackBicycle)
+
+-- =========================
+-- Menu & Events
+-- =========================
+local function OpenBicycleMenu(vehicleName, model)
+    local menu = {
+        { title = '🚲 Bicycle Menu', icon = 'bicycle', disabled = true },
+        {
+            title = BikeOut and ("📦 Pack " .. vehicleName) or ("📍 Place " .. vehicleName),
+            icon = BikeOut and 'box' or 'map-pin',
+            onSelect = function()
+                if BikeOut then
+                    PackBicycle()
+                else
+                    PlaceBicycle({ vehicle = model })
+                end
+            end
+        },
+        {
+            title = '❌ Close',
+            icon = 'circle-xmark',
+            onSelect = function()
+                lib.hideContext() -- force close menu
+            end
+        },
+    }
+
+    lib.registerContext({
+        id = 'bicycle_menu',
+        title = 'Bicycle Options',
+        options = menu
+    })
+
+    lib.showContext('bicycle_menu')
+end
 
 local bicycles = {
-    {name = "BMX", model = "bmx"},
-    {name = "Cruiser", model = "cruiser"},
-    {name = "Fixter", model = "fixter"},
-    {name = "Scorcher", model = "scorcher"},
-    {name = "Whippet Race Bike", model = "tribike"},
-    {name = "Endurex Race Bike", model = "tribike2"},
-    {name = "Tri-Cycles Race Bike", model = "tribike3"}
+    { name = "BMX", model = "bmx" },
+    { name = "Cruiser", model = "cruiser" },
+    { name = "Fixter", model = "fixter" },
+    { name = "Scorcher", model = "scorcher" },
+    { name = "Whippet Race Bike", model = "tribike" },
+    { name = "Endurex Race Bike", model = "tribike2" },
+    { name = "Tri-Cycles Race Bike", model = "tribike3" }
 }
 
 for _, bike in ipairs(bicycles) do
-    RegisterNetEvent('c_Bicycle:client:' .. bike.name .. 'Menu')
-    AddEventHandler('c_Bicycle:client:' .. bike.name .. 'Menu', function()
-        OpenBicycleMenu(bike.name)
+    RegisterNetEvent('c_Bicycle:client:' .. bike.model .. 'Menu', function()
+        OpenBicycleMenu(bike.name, bike.model)
     end)
 end
