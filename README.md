@@ -2,8 +2,6 @@
 Bicycles as items for QBCore.  
 Spawn, ride, and pack up bikes as inventory items.
 
-![Bicycle](images/bike.png) <!-- Update path if needed -->
-
 ---
 
 ## ✨ Features
